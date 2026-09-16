@@ -2,8 +2,10 @@ package todo.Users.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import todo.Users.domain.request.UserCreateRequest;
+import todo.Users.domain.request.UserUpdateRequest;
 import todo.Users.domain.response.UserResponse;
 import todo.Users.helper.UserHelper;
 import todo.Users.model.Users;
@@ -14,7 +16,9 @@ import todo.common.domain.response.AppResponse;
 import todo.common.exception.NotFoundException;
 import todo.common.exception.UnprocessableException;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static todo.Users.constants.UserConstants.*;
 
@@ -43,4 +47,45 @@ public class UserServiceImpl implements IUserService {
 
         return new AppResponse<>(HttpStatus.OK.value(), USER_REGISTERED_SUCCESS, userResponse, null);
     }
+
+    @Override
+    public AppResponse<UserResponse> fetchUser(String userId) {
+        Users user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+        UserResponse userResponse = UserHelper.buildUserResponse(user);
+        return new AppResponse<>(HttpStatus.OK.value(), USER_FETCHED_SUCCESS, userResponse, null);
+    }
+
+    @Override
+    public AppResponse<List<UserResponse>> fetchAllUsers() {
+        List<Users> users = userRepository.findAll();
+        List<UserResponse> userResponse = UserHelper.buildUserResponse(users);
+        return new AppResponse<>(HttpStatus.OK.value(), USER_FETCHED_SUCCESS, userResponse, null);
+    }
+
+    @Override
+    public AppResponse<UserResponse> updateUser(String userId, UserUpdateRequest request) {
+
+        Users users = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+
+        users.setUsername(request.getUsername());
+        users.setEmail(request.getEmail());
+        users.setMobile(request.getMobile());
+        Users updateUser = userRepository.save(users);
+        UserResponse userResponse = UserHelper.buildUserResponse(updateUser);
+        return new AppResponse<>(HttpStatus.OK.value(), USER_UPDATED_SUCCESS, userResponse, null);
+    }
+
+    @Override
+    public AppResponse<String> deleteUser(String userId) {
+        Users users = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+
+        users.setStatus(Status.DELETED);
+        userRepository.save(users);
+        return new AppResponse<>(HttpStatus.OK.value(), USER_DELETED_SUCCESS, null, null);
+    }
+
+
 }

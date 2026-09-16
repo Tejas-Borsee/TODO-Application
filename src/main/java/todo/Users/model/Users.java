@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 import todo.common.model.BaseEntity;
@@ -17,6 +18,7 @@ import todo.common.model.BaseEntity;
 @NoArgsConstructor
 @Table(name = "users")
 @AuditTable(value = "users_audit_log")
+@SQLRestriction("status <> 'DELETED'")
 public class Users extends BaseEntity {
 
     @Column(name = "username")
