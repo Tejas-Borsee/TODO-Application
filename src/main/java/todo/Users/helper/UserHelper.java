@@ -4,6 +4,9 @@ package todo.Users.helper;
 import todo.Users.domain.response.UserResponse;
 import todo.Users.model.Users;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class UserHelper {
 
     private UserHelper(){
@@ -18,5 +21,22 @@ public class UserHelper {
                 .mobile(users.getMobile())
                 .status(String.valueOf(users.getStatus()))
                 .build();
+    }
+
+    public static List<UserResponse> buildUserResponse(List<Users> users){
+        if (users.isEmpty()){
+            return List.of();
+        }
+
+        return users.stream()
+                .map(user -> UserResponse.builder()
+                        .createdAt(String.valueOf(user.getCreatedAt()))
+                        .id(user.getId())
+                        .username(user.getUsername())
+                        .email(user.getEmail())
+                        .mobile(user.getMobile())
+                        .status(String.valueOf(user.getStatus()))
+                        .build())
+                .collect(Collectors.toList());
     }
 }
