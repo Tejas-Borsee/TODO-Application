@@ -3,6 +3,7 @@ package todo.Users.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import todo.Users.domain.request.UserCreateRequest;
 import todo.Users.domain.request.UserUpdateRequest;
@@ -15,6 +16,7 @@ import todo.common.domain.enums.Status;
 import todo.common.domain.response.AppResponse;
 import todo.common.exception.NotFoundException;
 import todo.common.exception.UnprocessableException;
+import todo.common.utils.CommonUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +29,7 @@ import static todo.Users.constants.UserConstants.*;
 public class UserServiceImpl implements IUserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public AppResponse<UserResponse> createUser(UserCreateRequest request) {
@@ -38,9 +41,10 @@ public class UserServiceImpl implements IUserService {
 
         Users user = Users.builder()
                 .username(request.getUsername())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .email(request.getEmail())
                 .mobile(request.getMobile())
+                .userId(CommonUtils.generateUserId(3))
                 .build();
         Users savedUser = userRepository.save(user);
         UserResponse userResponse = UserHelper.buildUserResponse(savedUser);
