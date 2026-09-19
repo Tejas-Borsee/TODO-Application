@@ -21,6 +21,9 @@ import todo.common.model.BaseEntity;
 @SQLRestriction("status <> 'DELETED'")
 public class Users extends BaseEntity {
 
+    @Column(name = "user_id")
+    private String userId;
+
     @Column(name = "username")
     private String username;
 
