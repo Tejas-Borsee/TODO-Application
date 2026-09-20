@@ -11,6 +11,7 @@ public final class ApiConstants {
     public final static String USER_URI = "/user";
     public final static String AUTHENTICATION_URI = "/auth";
     public final static String TODO_URI = "/todo";
+    public final static String TAGS_URI = "/tags";
 
 
 }

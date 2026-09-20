@@ -1,13 +1,15 @@
 package todo.Users.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
+import todo.Todo.model.Todo;
 import todo.common.model.BaseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,5 +37,8 @@ public class Users extends BaseEntity {
 
     @Column(name = "mobile")
     private String mobile;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Todo> todos = new ArrayList<>();
 
 }
