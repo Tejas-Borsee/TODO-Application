@@ -42,7 +42,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
             throw new RuntimeException(AuthenticationConstants.USER_ACCOUNT_IS_DEACTIVATED);
         }
 
-        String token = jwtUtils.generateToken(loginRequest.getEmailOrMobile());
+        String token = jwtUtils.generateToken(loginRequest.getEmailOrMobile(), user.getUserId());
         String jti = jwtUtils.extractJti(token);
         sessionService.createSession(loginRequest.getEmailOrMobile(), jti);
         LoginResponse loginResponse = LoginResponse.builder()

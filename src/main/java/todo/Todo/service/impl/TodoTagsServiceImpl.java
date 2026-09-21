@@ -13,6 +13,7 @@ import todo.Todo.service.ITodoTagsService;
 import todo.common.domain.enums.Status;
 import todo.common.domain.response.AppResponse;
 import todo.common.exception.NotFoundException;
+import todo.common.exception.UnprocessableException;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +32,10 @@ public class TodoTagsServiceImpl implements ITodoTagsService {
     @Override
     public AppResponse<TodoTagsResponse> createTag(TodoTagsRequest todoTagsRequest) {
 
-        TodoTag isTagExists = todoTagsRepository.findByTag(todoTagsRequest.getTag())
-                .orElseThrow(() -> new NotFoundException(TAG_NOT_FOUND));
+        boolean isTagExists = todoTagsRepository.existsByTag(todoTagsRequest.getTag());
+        if (isTagExists){
+            throw new UnprocessableException(TAG_ALREADY_EXISTS);
+        }
 
         TodoTag todoTag = TodoTag.builder()
                 .tag(todoTagsRequest.getTag())
@@ -77,9 +80,9 @@ public class TodoTagsServiceImpl implements ITodoTagsService {
     }
 
     @Override
-    public AppResponse<TodoTagsResponse> updateTag(String tag) {
+    public AppResponse<TodoTagsResponse> updateTag(String id, String tag) {
 
-        TodoTag todoTag = todoTagsRepository.findByTag(tag)
+        TodoTag todoTag = todoTagsRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(TAG_NOT_FOUND));
 
         todoTag.setTag(tag);
@@ -94,9 +97,9 @@ public class TodoTagsServiceImpl implements ITodoTagsService {
     }
 
     @Override
-    public AppResponse<String> deleteTag(String tag) {
+    public AppResponse<String> deleteTag(String id) {
 
-        TodoTag todoTag = todoTagsRepository.findByTag(tag)
+        TodoTag todoTag = todoTagsRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(TAG_NOT_FOUND));
 
         todoTag.setStatus(Status.DELETED);

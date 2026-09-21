@@ -7,16 +7,19 @@ import lombok.NoArgsConstructor;
 import todo.Todo.domain.enums.Priority;
 import todo.Todo.domain.enums.TodoStatus;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TodoRequest {
+public class UpdateTodoRequest {
 
     private String title;
     private Priority priority;
     private TodoStatus todoStatus;
-    private String dueDate;
-    private String estimatedTime;
-    private String tagId;
+    private LocalDate dueDate;
+    private LocalDate estimatedTime;
+    private LocalDate actualTimeTaken;
+    private String tag;
 }

@@ -11,4 +11,6 @@ public interface TodoTagsRepository extends JpaRepository<TodoTag, String> {
 
     Optional<TodoTag> findByTag(String tag);
 
+    boolean existsByTag(String tag);
+
 }

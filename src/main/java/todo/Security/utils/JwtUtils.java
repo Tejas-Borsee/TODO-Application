@@ -22,17 +22,16 @@ public class JwtUtils {
         );
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username, String userId) {
 
         Date now = new Date();
 
-        Date expiry = new Date(
-                now.getTime() + 1000 * 60 * 60
-        );
+        Date expiry = new Date(now.getTime() + 1000 * 60 * 60);
 
         return Jwts.builder()
                 .subject(username)
-                .id(UUID.randomUUID().toString())   // IMPORTANT
+                .claim("userId", userId)
+                .id(UUID.randomUUID().toString())
                 .issuedAt(now)
                 .expiration(expiry)
                 .signWith(secretKey)
@@ -47,6 +46,16 @@ public class JwtUtils {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    public String extractUserId(String token) {
+
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("userId", String.class);
     }
 
     public String extractJti(String token) {

@@ -13,6 +13,7 @@ public class UserResponse {
 
     private String createdAt;
     private String id;
+    private String userId;
     private String username;
     private String email;
     private String mobile;

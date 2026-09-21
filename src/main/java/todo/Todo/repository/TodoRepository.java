@@ -7,5 +7,7 @@ import todo.Todo.model.Todo;
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, String> {
 
+    boolean existsByTitle(String title);
+
 
 }
