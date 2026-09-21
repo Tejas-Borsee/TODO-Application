@@ -71,6 +71,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String username = jwtUtils.extractUsername(token);
 
             String jti = jwtUtils.extractJti(token);
+
+            String userId = jwtUtils.extractUserId(token);
             /*
              * Check whether this is the
              * currently active session
@@ -94,11 +96,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 .loadUserByUsername(username);
 
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
+                UserAuthentication authentication =
+                        new UserAuthentication(
                                 userDetails,
                                 null,
-                                userDetails.getAuthorities()
+                                userDetails.getAuthorities(),
+                                userId
                         );
 
 

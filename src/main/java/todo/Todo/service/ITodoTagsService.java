@@ -15,7 +15,7 @@ public interface ITodoTagsService {
 
     AppResponse<List<TodoTagsResponse>> getAllTags();
 
-    AppResponse<TodoTagsResponse> updateTag(String tag);
+    AppResponse<TodoTagsResponse> updateTag(String id, String tag);
 
-    AppResponse<String> deleteTag(String tag);
+    AppResponse<String> deleteTag(String id);
 }

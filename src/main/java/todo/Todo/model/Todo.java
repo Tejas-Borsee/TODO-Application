@@ -51,7 +51,8 @@ public class Todo extends BaseEntity {
     private Users user;
 
     @ManyToMany
+    @Builder.Default
     @JoinTable(name = "todo_tags", joinColumns = @JoinColumn(name = "todo_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private Set<TodoTags> tags = new HashSet<>();
+    private Set<TodoTag> tags = new HashSet<>();
 
 }

@@ -1,11 +1,9 @@
 package todo.Todo.controller;
 
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import todo.Todo.domain.request.TodoTagsRequest;
 import todo.Todo.domain.response.TodoTagsResponse;
-import todo.Todo.model.TodoTag;
 import todo.Todo.service.ITodoTagsService;
 import todo.common.constants.ApiConstants;
 import todo.common.domain.response.AppResponse;
@@ -38,13 +36,13 @@ public class TodoTagsController {
     }
 
     @PutMapping("/update-tag")
-    public ResponseEntity<AppResponse<TodoTagsResponse>> updateTag(@RequestParam String tag){
-        return ResponseEntity.ok(todoTagsService.updateTag(tag));
+    public ResponseEntity<AppResponse<TodoTagsResponse>> updateTag(@RequestParam String id, @RequestParam String tag){
+        return ResponseEntity.ok(todoTagsService.updateTag(id,tag));
     }
 
     @DeleteMapping("/delete-tag")
-    public ResponseEntity<AppResponse<String>> deleteTag(@RequestParam String tag){
-        return ResponseEntity.ok(todoTagsService.deleteTag(tag));
+    public ResponseEntity<AppResponse<String>> deleteTag(@RequestParam String id){
+        return ResponseEntity.ok(todoTagsService.deleteTag(id));
     }
 
 

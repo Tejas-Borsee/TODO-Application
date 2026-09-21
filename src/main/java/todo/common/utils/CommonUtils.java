@@ -1,5 +1,10 @@
 package todo.common.utils;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import todo.Security.filter.UserAuthentication;
+import todo.common.exception.UnprocessableException;
+
 import java.security.SecureRandom;
 
 public final class CommonUtils {
@@ -23,4 +28,12 @@ public final class CommonUtils {
         return String.format("%03d", id);
     }
 
+    public static UserAuthentication getUserAuthentication() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof UserAuthentication) {
+            return (UserAuthentication) authentication;
+        } else {
+            throw new UnprocessableException("unauthorized user");
+        }
+    }
 }

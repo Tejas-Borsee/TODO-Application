@@ -4,9 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -20,8 +18,10 @@ import java.util.Set;
 @Builder
 @Entity
 @Audited
-@Table(name = "todo_tag")
-@AuditTable(value = "todo_tags_audit_table")
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "tags")
+@AuditTable(value = "tags_audit_table")
 @SQLRestriction("status <> 'DELETED'")
 public class TodoTag extends BaseEntity {
 
