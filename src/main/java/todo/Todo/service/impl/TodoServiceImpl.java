@@ -118,4 +118,9 @@ public class TodoServiceImpl implements ITodoService {
         todoRepository.save(todo);
         return new AppResponse<>(HttpStatus.OK.value(), TODO_DELETED_SUCCESS, null, null);
     }
+
+    @Override
+    public AppResponse<TodoResponse> getTodoByTag(String tag) {
+        return new AppResponse<>(HttpStatus.OK.value(), TODO_FETCHED_SUCCESS, null, null);
+    }
 }

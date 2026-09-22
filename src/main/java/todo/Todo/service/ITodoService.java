@@ -18,4 +18,6 @@ public interface ITodoService {
     AppResponse<TodoResponse> updateTodo(String id, UpdateTodoRequest updateTodoRequest);
 
     AppResponse<String> deleteTodo(String id);
+
+    AppResponse<TodoResponse> getTodoByTag(String tag);
 }
