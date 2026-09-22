@@ -46,4 +46,10 @@ public class TodoController {
         return ResponseEntity.ok(todoService.deleteTodo(id));
     }
 
+    @GetMapping("get-todo-by-tag")
+    public ResponseEntity<AppResponse<TodoResponse>> getTodByTag(@RequestParam String tag){
+        return ResponseEntity.ok(todoService.getTodoByTag(tag));
+    }
+
+
 }
